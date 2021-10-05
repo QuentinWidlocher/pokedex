@@ -1,0 +1,45 @@
+.tab {
+  @apply w-52 p-2 rounded-md flex cursor-pointer;
+  @apply hover:bg-opacity-20 hover:bg-white;
+}
+
+.tab span {
+  @apply overflow-ellipsis overflow-hidden whitespace-nowrap flex-grow;
+}
+
+.tab.active {
+  @apply bg-primary-700 text-white border border-primary-400 cursor-default;
+}
+
+.tab.active span {
+  @apply cursor-default;
+}
+
+.tab .btn-close {
+  @apply px-1 
+    rounded-md 
+    hover:bg-opacity-20 
+    hover:bg-white 
+    cursor-pointer;
+}
+
+.icon:not(:disabled) {
+  @apply text-primary-300 p-1 rounded-md;
+  @apply hover:bg-white hover:bg-opacity-20;
+}
+
+.icon:disabled {
+  @apply opacity-30 cursor-default;
+}
+
+.windows-btn {
+  @apply text-xs px-4 -m-1 hover:bg-opacity-20 hover:bg-white;
+}
+
+.windows-btn.close {
+  @apply -ml-3 hover:bg-red-500;
+}
+
+.windows-btn.close.not-maximized {
+  @apply rounded-tr-md;
+}

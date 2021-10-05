@@ -1,0 +1,29 @@
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.grid-wrapper .grid-titlebar {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.grid-wrapper .grid-main {
+  background-color: white;
+  box-shadow: inset 0px 1px 10px 0px rgba(0, 0, 0, 0.1);
+
+  grid-column: 1;
+  grid-row: 2;
+
+  height: 100%;
+
+  overflow: auto;
+}
+
+.grid-wrapper .grid-footer {
+  grid-column: 1;
+  grid-row: 3;
+}
