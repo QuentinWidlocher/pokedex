@@ -1,11 +1,14 @@
 import { listen } from '@tauri-apps/api/event'
 import { appWindow } from '@tauri-apps/api/window'
 import { useEffect, useState } from 'preact/hooks'
+import { useTabs } from '../../../providers/tab-provider'
+import { TitledLink } from '../../navigation/titled-link'
 import './window-title-bar.css'
 
 export const WindowTitleBar = () => {
   const [maximized, setMaximized] = useState(false)
   const [maximizedClass, setMaximizedClass] = useState('')
+  const [tabState, dispatchTabs] = useTabs()
 
   useEffect(() => {
     listen('tauri://resize', async () => {
@@ -24,9 +27,24 @@ export const WindowTitleBar = () => {
       >
         <nav class="-m-2">
           <ul class="flex p-2 space-x-2">
-            <li class="tab active">
-              <span>Search</span>
-            </li>
+            {tabState.tabs.map((tab) => (
+              <TitledLink to={tab.url} title={tab.title}>
+                <li class={`tab ${tab.active ? 'active' : ''}`}>
+                  <span>{tab.title}</span>
+                  {tab.url != '/' ? (
+                    <button
+                      class="btn-close"
+                      onClick={(e) => {
+                        e.preventDefault()
+                        dispatchTabs({ type: 'close', props: { url: tab.url } })
+                      }}
+                    >
+                      ✕
+                    </button>
+                  ) : null}
+                </li>
+              </TitledLink>
+            ))}
             <li class="rounded-md flex">
               <button
                 class="icon"

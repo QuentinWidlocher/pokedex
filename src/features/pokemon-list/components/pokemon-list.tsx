@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'preact/hooks'
 import { TextInput } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
-import { Link } from 'react-router-dom'
+import { TitledLink } from '../../../components/navigation/titled-link'
 import { Card } from './card'
 import { PokemonListType } from '../types/pokemon-list'
+import { capitalized } from '../../../utils/string-utils'
 
 interface PokemonListProps {
   list: PokemonListType[]
@@ -45,9 +46,9 @@ export function PokemonList({ list }: PokemonListProps) {
       <ul className="mt-5 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 -mx-3">
         {filteredList.map(({ id, name, types, spriteUrl }, i) => (
           <li className="p-3">
-            <Link to={`/${id}`}>
+            <TitledLink to={`/${id}`} title={capitalized(name)}>
               <Card name={name} types={types} spriteUrl={spriteUrl} />
-            </Link>
+            </TitledLink>
           </li>
         ))}
       </ul>

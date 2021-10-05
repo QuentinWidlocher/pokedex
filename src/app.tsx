@@ -4,6 +4,7 @@ import { PokemonDetailRoute } from './features/pokemon-detail/routes/pokemon-det
 import { PokemonListRoute } from './features/pokemon-list/routes/pokemon-list'
 import { MantineProvider } from '@mantine/core'
 import './app.css'
+import { TabProvider } from './providers/tab-provider'
 
 export function App() {
   return (
@@ -12,24 +13,26 @@ export function App() {
         primaryColor: 'red',
       }}
     >
-      <div className="grid-wrapper">
-        <header className="grid-titlebar">
-          <WindowTitleBar />
-        </header>
-        <main className="grid-main p-10">
-          <Router>
-            <Switch>
-              <Route exact path="/">
-                <PokemonListRoute />
-              </Route>
-              <Route path="/:id">
-                <PokemonDetailRoute />
-              </Route>
-            </Switch>
-          </Router>
-        </main>
-        <footer className="grid-footer"></footer>
-      </div>
+      <Router>
+        <TabProvider>
+          <div className="grid-wrapper">
+            <header className="grid-titlebar">
+              <WindowTitleBar />
+            </header>
+            <main className="grid-main p-10">
+              <Switch>
+                <Route exact path="/">
+                  <PokemonListRoute />
+                </Route>
+                <Route path="/:id">
+                  <PokemonDetailRoute />
+                </Route>
+              </Switch>
+            </main>
+            <footer className="grid-footer"></footer>
+          </div>
+        </TabProvider>
+      </Router>
     </MantineProvider>
   )
 }
