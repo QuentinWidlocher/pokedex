@@ -36,7 +36,7 @@ export function PokemonList({ list }: PokemonListProps) {
     <>
       <TextInput
         className="w-60"
-        label="Search a pokemon"
+        label="Search for a pokemon"
         radius="md"
         size="md"
         value={searchTerms}

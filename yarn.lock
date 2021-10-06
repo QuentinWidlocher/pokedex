@@ -1974,6 +1974,11 @@ hyphenate-style-name@^1.0.3:
   resolved "http://10.8.0.8:4873/hyphenate-style-name/-/hyphenate-style-name-1.0.4.tgz#691879af8e220aea5750e8827db4ef62a54e361d"
   integrity sha512-ygGZLjmXfPHj+ZWh6LwbC37l43MhfztxetbFCoYTM2VjkIUpeHgSNn7QIyVFj7YQ1Wl9Cbw5sholVJPzWvC2MQ==
 
+iconoir-react@^2.1.0:
+  version "2.1.0"
+  resolved "http://10.8.0.8:4873/iconoir-react/-/iconoir-react-2.1.0.tgz#decfafbdc19851e9e6cc09203ad8550ff6963b86"
+  integrity sha512-PMrSTrTI4iksFrZvPnlQraQdDOE5yEe/Z4O0+v5O7mNbwLFDqCVgtDp6fyR9EDVeIyiPY9/YDfq++eII+DH4rw==
+
 iconv-lite@^0.4.24:
   version "0.4.24"
   resolved "http://10.8.0.8:4873/iconv-lite/-/iconv-lite-0.4.24.tgz#2022b4b25fbddc21d2f524974a474aafe733908b"

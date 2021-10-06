@@ -67,9 +67,9 @@ function tabReducer({ tabs }: TabState, action: Action): TabState {
         { type: 'select', props: { url: '/' } },
       )
     }
-    default: {
-      throw new Error(`Unhandled action type: ${action.type}`)
-    }
+    // default: {
+    //   throw new Error(`Unhandled action type: ${action.type}`)
+    // }
   }
 }
 

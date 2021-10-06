@@ -1,5 +1,5 @@
 .tab {
-  @apply w-52 p-2 rounded-md flex cursor-pointer;
+  @apply w-24 md:w-48 p-1 md:p-2 rounded-md flex cursor-pointer;
   @apply hover:bg-opacity-20 hover:bg-white;
 }
 
@@ -23,6 +23,19 @@
     cursor-pointer;
 }
 
+[data-tauri-drag-region] {
+  position: relative;
+}
+
+[data-tauri-drag-region]:before {
+  content: '';
+  position: absolute;
+  right: 38px;
+  width: 25px;
+  height: 100%;
+  @apply bg-gradient-to-l from-primary-800;
+}
+
 .icon:not(:disabled) {
   @apply text-primary-300 p-1 rounded-md;
   @apply hover:bg-white hover:bg-opacity-20;
@@ -33,7 +46,7 @@
 }
 
 .windows-btn {
-  @apply text-xs px-4 -m-1 hover:bg-opacity-20 hover:bg-white;
+  @apply text-xs px-2 md:px-4 -m-1 hover:bg-opacity-20 hover:bg-white;
 }
 
 .windows-btn.close {
