@@ -1,15 +1,20 @@
-import { createContext, FunctionComponent } from 'preact'
+import { Search } from 'iconoir-react'
+import { createContext, ComponentChildren, FunctionComponent } from 'preact'
 import { useContext, useEffect, useReducer } from 'preact/hooks'
 
 type Tab = {
   title: string
   url: string
   active?: boolean
+  icon?: ComponentChildren
 }
 type Action =
   | { type: 'add'; props: Tab }
   | { type: 'select'; props: { url: string } }
-  | { type: 'linkClick'; props: { url: string; title: string } }
+  | {
+      type: 'linkClick'
+      props: { url: string; title: string; icon?: ComponentChildren }
+    }
   | { type: 'close'; props: { url: string } }
 type Dispatch = (action: Action) => void
 type TabState = { tabs: Tab[] }
@@ -54,6 +59,7 @@ function tabReducer({ tabs }: TabState, action: Action): TabState {
             props: {
               title: action.props.title,
               url: action.props.url,
+              icon: action.props.icon,
             },
           },
         )
@@ -79,7 +85,10 @@ export const TabProvider: FunctionComponent<{}> = ({ children }) => {
   const value = { state, dispatch }
 
   useEffect(function onInit() {
-    dispatch({ type: 'add', props: { title: 'Search', url: '/' } })
+    dispatch({
+      type: 'add',
+      props: { title: 'Search', url: '/', icon: <Search /> },
+    })
   }, [])
 
   return <TabContext.Provider value={value}>{children}</TabContext.Provider>

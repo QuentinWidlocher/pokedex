@@ -22,7 +22,7 @@ export const WindowTitleBar = () => {
   }, [maximized])
 
   return (
-    <header class={`text-white flex flex-col ${maximizedClass}`}>
+    <header class={`text-white flex flex-col select-none ${maximizedClass}`}>
       <section
         class={`flex space-x-1 bg-primary-800 p-1 pr-0 ${maximizedClass}`}
       >
@@ -31,6 +31,7 @@ export const WindowTitleBar = () => {
             {tabState.tabs.map((tab) => (
               <TitledLink to={tab.url} title={tab.title}>
                 <li class={`tab ${tab.active ? 'active' : ''}`}>
+                  {tab.icon ? <div class="mr-2 ">{tab.icon}</div> : null}
                   <span>{tab.title}</span>
                   {tab.url != '/' ? (
                     <button

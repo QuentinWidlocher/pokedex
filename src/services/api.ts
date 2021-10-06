@@ -1,4 +1,5 @@
 import { PokemonDetail } from '../features/pokemon-detail/types/pokemon-detail'
+import { PokemonListType } from '../features/pokemon-list/types/pokemon-list'
 import { PokemonType } from '../types/pokemon-type'
 
 export async function fetchPokeApi<T>(query: string) {
@@ -22,7 +23,7 @@ export async function fetchPokeApi<T>(query: string) {
   return results as T[]
 }
 
-export async function fetchPokemonList() {
+export async function fetchPokemonList(): Promise<PokemonListType[]> {
   let results = await fetchPokeApi<{
     id: number
     name: string
@@ -50,6 +51,7 @@ export async function fetchPokemonList() {
       (t) => t.pokemon_v2_type.name as PokemonType,
     ),
     spriteUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pkmn.id}.png`,
+    iconUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/${pkmn.id}.png`,
   }))
 }
 

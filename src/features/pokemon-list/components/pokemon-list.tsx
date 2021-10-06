@@ -44,9 +44,18 @@ export function PokemonList({ list }: PokemonListProps) {
       />
 
       <ul className="mt-5 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 -mx-3">
-        {filteredList.map(({ id, name, types, spriteUrl }, i) => (
+        {filteredList.map(({ id, name, types, spriteUrl, iconUrl }, i) => (
           <li className="p-3">
-            <TitledLink to={`/${id}`} title={capitalized(name)}>
+            <TitledLink
+              to={`/${id}`}
+              title={capitalized(name)}
+              icon={
+                <div
+                  class="w-6 h-6 bg-bottom bg-no-repeat"
+                  style={`background-image: url('${iconUrl}'); background-size: 190%;`}
+                ></div>
+              }
+            >
               <Card name={name} types={types} spriteUrl={spriteUrl} />
             </TitledLink>
           </li>

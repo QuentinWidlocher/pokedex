@@ -5,4 +5,5 @@ export interface PokemonListType {
   name: string
   types: PokemonType[]
   spriteUrl: string
+  iconUrl: string
 }
