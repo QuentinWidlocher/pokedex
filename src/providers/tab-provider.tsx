@@ -2,7 +2,7 @@ import { Search } from 'iconoir-react'
 import { createContext, ComponentChildren, FunctionComponent } from 'preact'
 import { useContext, useEffect, useReducer } from 'preact/hooks'
 
-type Tab = {
+export type Tab = {
   title: string
   url: string
   active?: boolean
@@ -66,8 +66,6 @@ function tabReducer({ tabs }: TabState, action: Action): TabState {
       }
     }
     case 'close': {
-      console.log(action.props.url)
-
       return tabReducer(
         { tabs: tabs.filter((tab) => tab.url != action.props.url) },
         { type: 'select', props: { url: '/' } },

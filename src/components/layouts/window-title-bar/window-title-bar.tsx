@@ -1,15 +1,17 @@
 import { listen } from '@tauri-apps/api/event'
 import { appWindow } from '@tauri-apps/api/window'
 import { useEffect, useState } from 'preact/hooks'
-import { useTabs } from '../../../providers/tab-provider'
+import { Tab, useTabs } from '../../../providers/tab-provider'
 import { TitledLink } from '../../navigation/titled-link'
 import { Plus, Minus, Cancel, Square } from 'iconoir-react'
+import { useHistory } from 'react-router-dom'
 import './window-title-bar.css'
 
 export const WindowTitleBar = () => {
   const [maximized, setMaximized] = useState(false)
   const [maximizedClass, setMaximizedClass] = useState('')
   const [tabState, dispatchTabs] = useTabs()
+  const history = useHistory()
 
   useEffect(() => {
     listen('tauri://resize', async () => {
@@ -20,6 +22,13 @@ export const WindowTitleBar = () => {
   useEffect(() => {
     setMaximizedClass(maximized ? '' : 'rounded-t-lg')
   }, [maximized])
+
+  function onTabClose(event: Event, tab: Tab) {
+    event.preventDefault()
+    event.stopPropagation()
+    dispatchTabs({ type: 'close', props: { url: tab.url } })
+    history.push('/')
+  }
 
   return (
     <header class={`text-white flex flex-col select-none ${maximizedClass}`}>
@@ -36,12 +45,9 @@ export const WindowTitleBar = () => {
                   {tab.url != '/' ? (
                     <button
                       class="btn-close"
-                      onClick={(e) => {
-                        e.preventDefault()
-                        dispatchTabs({ type: 'close', props: { url: tab.url } })
-                      }}
+                      onClick={(e) => onTabClose(e, tab)}
                     >
-                      ✕
+                      <Cancel height={16} width={16} />
                     </button>
                   ) : null}
                 </li>
