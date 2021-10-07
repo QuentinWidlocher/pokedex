@@ -5,31 +5,35 @@ import { fetchPokemon } from '../../../services/api'
 import { PokemonDetail } from '../components/pokemon-detail'
 import { PokemonDetailType } from '../types/pokemon-detail'
 
-export const PokemonDetailRoute = () => {
-  const params = useParams<{ id: string }>()
-
-  const [cachedPokemon, setCachedPokemon] = useLocalStorageValue<string>({
-    key: String(params.id),
-  })
+const useCachedPokemon = (id: string) => {
   const [pokemon, setPokemon] = useState<PokemonDetailType | null>(null)
 
   useEffect(
-    function onInit() {
+    function fetchAnotherPokemon() {
       ;(async function () {
+        let cachedPokemon = localStorage.getItem(id)
+
         if (!cachedPokemon) {
-          let pokemonResponse = await fetchPokemon(params.id)
+          let pokemonResponse = await fetchPokemon(id)
 
           if (pokemonResponse) {
             setPokemon(pokemonResponse)
-            setCachedPokemon(JSON.stringify(pokemonResponse))
+            localStorage.setItem(id, JSON.stringify(pokemonResponse))
           }
         } else {
           setPokemon(JSON.parse(cachedPokemon))
         }
       })()
     },
-    [params],
+    [id],
   )
+
+  return pokemon
+}
+
+export const PokemonDetailRoute = () => {
+  const params = useParams<{ id: string }>()
+  const pokemon = useCachedPokemon(params.id)
 
   return pokemon ? <PokemonDetail pokemon={pokemon} /> : <span>Loading...</span>
 }
