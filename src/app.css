@@ -13,6 +13,7 @@
 }
 
 .grid-wrapper .grid-main {
+  @apply rounded-b-lg;
   background-color: white;
   box-shadow: inset 0px 1px 10px 0px rgba(0, 0, 0, 0.1);
 

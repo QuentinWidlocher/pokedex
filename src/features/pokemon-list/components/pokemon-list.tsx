@@ -52,7 +52,7 @@ export function PokemonList({ list }: PokemonListProps) {
               icon={
                 <div
                   class="w-6 h-6 bg-bottom bg-no-repeat"
-                  style={`background-image: url('${iconUrl}'); background-size: 190%;`}
+                  style={`background-image: url('${iconUrl}'); background-size: 190%; image-rendering: pixelated`}
                 ></div>
               }
             >

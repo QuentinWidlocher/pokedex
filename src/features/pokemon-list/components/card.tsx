@@ -12,7 +12,7 @@ interface CardProps {
 
 export const Card = ({ name, types, spriteUrl }: CardProps) => {
   let cardClass =
-    'p-5 rounded-xl flex flex-col items-center transform transition-transform hover:-translate-y-1'
+    'p-5 rounded-xl flex flex-col items-center shadow-sm transform transition-all hover:-translate-y-1 hover:shadow-lg'
 
   const { bg, text } = types[0]
     ? colorsByType[types[0]]
@@ -25,7 +25,7 @@ export const Card = ({ name, types, spriteUrl }: CardProps) => {
         src={spriteUrl}
         loading="lazy"
       />
-      <h1 className="capitalize">{name}</h1>
+      <h1 className="capitalize font-bold">{name}</h1>
       <small className="capitalize">{printArray(types)}</small>
     </article>
   )

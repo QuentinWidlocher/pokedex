@@ -1,9 +1,9 @@
 import { useLocalStorageValue } from '@mantine/hooks'
 import { useEffect, useState } from 'preact/hooks'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { fetchPokemon } from '../../../services/api'
 import { PokemonDetail } from '../components/pokemon-detail'
-import { PokemonDetail as PokemonDetailType } from '../types/pokemon-detail'
+import { PokemonDetailType } from '../types/pokemon-detail'
 
 export const PokemonDetailRoute = () => {
   const params = useParams<{ id: string }>()

@@ -2,6 +2,7 @@
   "name": "test-tauri",
   "version": "0.0.0",
   "scripts": {
+    "start": "tauri dev",
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
