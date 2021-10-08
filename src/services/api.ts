@@ -87,18 +87,18 @@ export async function fetchPokemon(
       }[]
     }>(
       `
-            pokemon_v2_pokemon(where: {id: {_eq: $id}}) {
-              id,
-              name,
-              pokemon_v2_pokemontypes {
-                  pokemon_v2_type {
-                      name
-                  }
-              },
-            }
-            pokemon_v2_pokemonspeciesflavortext(where: {pokemon_species_id: {_eq: $id}, language_id: {_eq: 9}}, limit: 1, order_by: {id: desc}) {
-              flavor_text
-            }
+        pokemon_v2_pokemon(where: {id: {_eq: $id}}) {
+          id,
+          name,
+          pokemon_v2_pokemontypes {
+              pokemon_v2_type {
+                  name
+              }
+          },
+        }
+        pokemon_v2_pokemonspeciesflavortext(where: {pokemon_species_id: {_eq: $id}, language_id: {_eq: 9}}, limit: 1, order_by: {id: desc}) {
+          flavor_text
+        }
         `,
       `$id: Int = ${pokemonId}`,
     )
@@ -127,4 +127,28 @@ export async function fetchPokemon(
   } catch {
     return Promise.resolve(undefined)
   }
+}
+
+export async function downloadAllData() {
+  if (localStorage.getItem('allDataDownloaded') == 'true') {
+    return
+  }
+
+  let pokemonList: PokemonListType[] = JSON.parse(
+    localStorage.getItem('pokemonList') ?? '[]',
+  )
+
+  if (!pokemonList || pokemonList.length <= 0) {
+    pokemonList = await fetchPokemonList()
+    localStorage.setItem('pokemonList', JSON.stringify(pokemonList))
+  }
+
+  for (const pokemon of pokemonList) {
+    localStorage.setItem(
+      String(pokemon.id),
+      JSON.stringify(await fetchPokemon(pokemon.id)),
+    )
+  }
+
+  localStorage.setItem('allDataDownloaded', 'true')
 }

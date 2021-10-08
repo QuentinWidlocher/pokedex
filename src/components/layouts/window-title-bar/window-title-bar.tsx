@@ -3,11 +3,17 @@ import { appWindow } from '@tauri-apps/api/window'
 import { useEffect, useState } from 'preact/hooks'
 import { Tab, useTabs } from '../../../providers/tab-provider'
 import { TitledLink } from '../../navigation/titled-link'
-import { Plus, Minus, Cancel, Square } from 'iconoir-react'
+import { Download, Minus, Cancel, Square } from 'iconoir-react'
 import { useHistory } from 'react-router-dom'
+import { downloadAllData } from '../../../services/api'
+import { Tooltip } from '@mantine/core'
 import './window-title-bar.css'
 
-export const WindowTitleBar = () => {
+export const WindowTitleBar = ({
+  onLockUI,
+}: {
+  onLockUI: (state: boolean) => void
+}) => {
   const [maximized, setMaximized] = useState(false)
   const [maximizedClass, setMaximizedClass] = useState('')
   const [tabState, dispatchTabs] = useTabs()
@@ -28,6 +34,16 @@ export const WindowTitleBar = () => {
     event.stopPropagation()
     dispatchTabs({ type: 'close', props: { url: tab.url } })
     history.push('/')
+  }
+
+  function downloadAll() {
+    onLockUI(true)
+    downloadAllData().then(() => {
+      onLockUI(false)
+      alert(
+        "All the data has been downloaded !\nYou can now use this application without being online\nBonus: it's faster now ;)",
+      )
+    })
   }
 
   return (
@@ -55,13 +71,19 @@ export const WindowTitleBar = () => {
             ))}
           </ul>
         </nav>
-        <div class="flex-grow flex" data-tauri-drag-region>
-          <button
-            class="icon ml-3 my-auto"
-            onClick={() => alert("C'est pas encore prêt")}
-          >
-            <Plus />
-          </button>
+        <div class="flex-grow flex justify-end" data-tauri-drag-region>
+          {!localStorage.getItem('allDataDownloaded') ? (
+            <Tooltip class="my-auto" label="Download all data" withArrow>
+              <button
+                class="icon ml-3 my-auto"
+                onClick={() => {
+                  downloadAll()
+                }}
+              >
+                <Download />
+              </button>
+            </Tooltip>
+          ) : null}
         </div>
         <button class="windows-btn" onClick={() => appWindow.minimize()}>
           <Minus height={16} width={16} />
