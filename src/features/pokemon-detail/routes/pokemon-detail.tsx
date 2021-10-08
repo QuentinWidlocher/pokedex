@@ -16,6 +16,8 @@ const useCachedPokemon = (id: string) => {
         if (!cachedPokemon) {
           let pokemonResponse = await fetchPokemon(id)
 
+          console.log(pokemonResponse)
+
           if (pokemonResponse) {
             setPokemon(pokemonResponse)
             localStorage.setItem(id, JSON.stringify(pokemonResponse))

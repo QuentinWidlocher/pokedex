@@ -1,24 +1,36 @@
 import { PokemonDetailType } from '../features/pokemon-detail/types/pokemon-detail'
 import { PokemonListType } from '../features/pokemon-list/types/pokemon-list'
 import { PokemonType } from '../types/pokemon-type'
+import { Body, fetch, FetchOptions } from '@tauri-apps/api/http'
 
 export async function fetchPokeApi<T>(query: string, params?: string) {
   let stringParams = params ? `(${params})` : ''
 
-  const response = await fetch('https://beta.pokeapi.co/graphql/v1beta', {
+  let opt: FetchOptions = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
-    body: JSON.stringify({
+    body: Body.json({
       query: `query ${stringParams} {${query}}`,
     }),
-  })
+  }
 
-  const { data: results } = await response.json()
+  console.group()
 
-  return results as T
+  console.log('Fetching with :', opt)
+
+  const response = await fetch<{ data: T }>(
+    'https://beta.pokeapi.co/graphql/v1beta',
+    opt,
+  )
+
+  console.log('Got response :', response)
+
+  console.groupEnd()
+
+  return response.data.data
 }
 
 export async function fetchPokemonList(): Promise<PokemonListType[]> {
@@ -84,16 +96,16 @@ export async function fetchPokemon(
                   }
               },
             }
-            pokemon_v2_pokemonspeciesflavortext(where: {id: {_eq: $id}, language_id: {_eq: 9}}) {
+            pokemon_v2_pokemonspeciesflavortext(where: {pokemon_species_id: {_eq: $id}, language_id: {_eq: 9}}, limit: 1, order_by: {id: desc}) {
               flavor_text
             }
         `,
       `$id: Int = ${pokemonId}`,
     )
 
+    // The API returns a list, we only want one result
     let pkmn = results.pokemon_v2_pokemon[0]
 
-    // The API returns a list, we only want one result
     return {
       id: pkmn.id,
       name: pkmn.name,
@@ -109,7 +121,8 @@ export async function fetchPokemon(
         },
         artwork: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pkmn.id}.png`,
       },
-      flavorText: results.pokemon_v2_pokemonspeciesflavortext[0].flavor_text,
+      flavorText:
+        results.pokemon_v2_pokemonspeciesflavortext[0]?.flavor_text ?? '',
     }
   } catch {
     return Promise.resolve(undefined)
